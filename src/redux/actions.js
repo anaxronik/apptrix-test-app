@@ -11,6 +11,7 @@ export function registerUser(registerData) {
       const response = await API.post('/clients/create/', registerData)
       if (response.status === 201) {
         alert('Регистрация успешна')
+        window.location.replace('/login')
       }
     } catch (error) {
       let errors = error.response.data
