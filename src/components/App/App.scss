@@ -21,3 +21,34 @@ button {
 .btn:hover {
   background-color: $color_grey;
 }
+
+.header {
+  background-color: $color_grey_light;
+  color: red;
+  border-bottom: 1px solid $color_grey;
+  margin-bottom: 40px;
+}
+
+ul {
+  display: flex;
+  list-style: none;
+  align-items: center;
+  justify-content: space-between;
+  height: 50px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+
+  label {
+    color: $color_grey;
+  }
+
+  input {
+    width: 100%;
+    padding: 10px;
+    font-size: 18px;
+  }
+}

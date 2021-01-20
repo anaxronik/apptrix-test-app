@@ -1,24 +1,24 @@
-import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { setLoginPassword, setLoginUsername } from '../../redux/actions'
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { loginUser } from '../../redux/actions'
 
 export default function LoginPage() {
+  const [state, setState] = useState({
+    username: '',
+    password: '',
+  })
   const dispatch = useDispatch()
-  const loginData = useSelector((state) => state.auth.loginData)
 
   const inputChangeHandler = (event) => {
-    if (event.target.id === 'email') {
-      dispatch(setLoginUsername(event.target.value))
-    }
-    if (event.target.id === 'password') {
-      dispatch(setLoginPassword(event.target.value))
-    }
+    setState({
+      ...state,
+      [event.target.name]: event.target.value,
+    })
   }
 
   const loginHandler = (event) => {
     event.preventDefault()
-    dispatch(loginUser(loginData))
+    dispatch(loginUser(state))
   }
 
   return (
@@ -28,8 +28,8 @@ export default function LoginPage() {
           <label htmlFor="email">Email</label>
           <input
             type="text"
-            id="email"
-            value={loginData.username}
+            name="username"
+            value={state.username}
             onChange={inputChangeHandler}
           />
         </div>
@@ -37,8 +37,8 @@ export default function LoginPage() {
           <label htmlFor="password">Пароль</label>
           <input
             type="password"
-            id="password"
-            value={loginData.password}
+            name="password"
+            value={state.password}
             onChange={inputChangeHandler}
           />
         </div>

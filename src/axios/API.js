@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { getAccessToken, getRefreshToken } from '../localStorage/localStorage'
 
 let api = axios.create({
   baseURL: 'http://erp.apptrix.ru/api',
@@ -9,7 +8,7 @@ let api = axios.create({
 //request interceptor
 api.interceptors.request.use(
   function (config) {
-    const token = getAccessToken()
+    const token = localStorage.getItem('access_token')
     if (token) {
       config.headers['Authorization'] = 'Bearer ' + token
     }
@@ -17,7 +16,6 @@ api.interceptors.request.use(
     return config
   },
   function (error) {
-    console.log('Error in axios request interceptor')
     return Promise.reject(error)
   }
 )
@@ -25,16 +23,22 @@ api.interceptors.request.use(
 //response interceptor
 api.interceptors.response.use(
   function (response) {
-    console.log('response interceptor', response.status)
-    console.log('response:', response)
     if (response.status === 401) {
-      console.log('Try refresh token')
-      const refresh_token = getRefreshToken()
+      const refresh = localStorage.getItem('resfresh_token')
+      axios
+        .post('http://erp.apptrix.ru/api/clients/token/refresh/', {
+          refresh,
+        })
+        .then((response) => {
+          localStorage.setItem('access_token', response.data.access)
+        })
+        .catch((error) => {
+          localStorage.clear()
+        })
     }
     return response
   },
   function (error) {
-    console.log('Error in response interceptor')
     return Promise.reject(error)
   }
 )

@@ -5,10 +5,9 @@ import { useDispatch, useSelector } from 'react-redux'
 export default function MainPage() {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.app.user)
-  const client_id = useSelector((state) => state.app.client_id)
+  const client_id = useSelector((state) => state.auth.client_id)
 
   useEffect(() => {
-    console.log('Use effect')
     dispatch(fetchUserData(client_id))
   }, [dispatch, client_id])
 

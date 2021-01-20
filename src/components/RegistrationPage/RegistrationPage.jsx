@@ -2,13 +2,14 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { registerUser } from '../../redux/actions'
 
-import './RegistrationPage.scss'
-
 export default function RegistrationPage() {
   const [state, setState] = useState({
-    email: '',
-    password: '',
-    invitedBy: 'RU-637164',
+    user: {
+      email: '',
+      password: '',
+    },
+    phone: '',
+    invited_by: 'RU-589448',
     name: '',
     surname: '',
     country_key: 'RU',
@@ -22,7 +23,20 @@ export default function RegistrationPage() {
   }
 
   const inputChangeHandler = (event) => {
-    setState({ ...state, [event.target.name]: event.target.value })
+    if (event.target.name === 'email' || event.target.name === 'password') {
+      setState({
+        ...state,
+        user: {
+          ...state.user,
+          [event.target.name]: event.target.value,
+        },
+      })
+    } else {
+      setState({
+        ...state,
+        [event.target.name]: event.target.value,
+      })
+    }
   }
 
   return (
@@ -34,7 +48,7 @@ export default function RegistrationPage() {
             type="text"
             name="email"
             onChange={inputChangeHandler}
-            value={state.email}
+            value={state.user.email}
           />
         </div>
         <div className="formGroup">
@@ -43,16 +57,16 @@ export default function RegistrationPage() {
             type="password"
             name="password"
             onChange={inputChangeHandler}
-            value={state.password}
+            value={state.user.password}
           />
         </div>
         <div className="formGroup">
           <label htmlFor="invitedBy">Инвайт код</label>
           <input
             type="text"
-            name="invitedBy"
+            name="invited_by"
             onChange={inputChangeHandler}
-            value={state.invitedBy}
+            value={state.invited_by}
           />
         </div>
         <div className="formGroup">
